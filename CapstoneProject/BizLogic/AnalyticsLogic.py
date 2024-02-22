@@ -1,10 +1,8 @@
 import pandas as pd
-from Utils.UtilLogger import UtilLogger
 import logging
 
 def parkingDetails(parkingDict):
-    logger = UtilLogger(__name__).getlogger()
-    logger.addHandler(logging.StreamHandler)
+    logger = logging.getLogger(__name__)
     logger.info("Aggregating data")
     parkingLotDetails = {}
     for parkingLotName in parkingDict.keys():
@@ -14,12 +12,14 @@ def parkingDetails(parkingDict):
         totalCoveredSlots += coveredSlots
         totalOccupiedSlots += occupiedSlots
         totalVipSlots += vipSlots
-        del df_parkinglot
         parkingLotDetails[parkingLotName] = {
-        'totalCoveredSlots': totalCoveredSlots,
+        'totalParkingSlots': len(df_parkinglot) - 1,
         'totalOccupiedSlots': totalOccupiedSlots,
+        'totalAvailableSlots': len(df_parkinglot) - 1 - totalOccupiedSlots,
+        'totalCoveredSlots': totalCoveredSlots,
         'totalVipSlots' : totalVipSlots,
         'parkingSlotDetails': parkingDict[parkingLotName]
     }
-    
+        del df_parkinglot
+        
     return parkingLotDetails
