@@ -1,0 +1,9 @@
+{
+    "DATABASE": {
+        "DBNAME": "analytics",
+        "DBUSER": "capstone_user",
+        "DBPASSWORD": "password",
+        "DBHOST": "localhost",
+        "DBPORT": "3306"
+    }
+}
