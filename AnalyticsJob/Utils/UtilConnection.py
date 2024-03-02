@@ -31,10 +31,10 @@ class UtilConnection:
             self._dbConnection = mysqlconnect.connect(user=self._user,password=self._password,host=self._host,port=self._port,database=self._dbname)
         except mysqlconnect.Error as err:
             raise Exception(err)
-        
-    def getDbConnection(self):
+            
+    def getDbCursor(self):
         if self._dbConnection.is_connected() == True:
-            return self._dbConnection
+            return self._dbConnection.cursor()
         else:
             print("No connection to database")
             

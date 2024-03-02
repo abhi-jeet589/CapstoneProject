@@ -1,0 +1,8 @@
+Objects:
+  Users: 'select count(*) from sql where processed = "False";'
+
+Batch_procesing:
+  Batch_job: ''
+
+Analytics: 
+  Users: "INSERT INTO 'user_analytics' ('date_processed','no_of_users') VALUES {};"
