@@ -1,8 +1,24 @@
-Objects:
-  Users: 'select count(*) from sql where processed = "False";'
+Analytics:
+  Users:
+    UpstreamFetch: 'select user_id from users where processed = "False";'
 
-Batch_procesing:
-  Batch_job: ''
+    DownstreamInsert: "INSERT INTO user_analytics (date_processed,no_of_users) VALUES {};"
 
-Analytics: 
-  Users: "INSERT INTO 'user_analytics' ('date_processed','no_of_users') VALUES {};"
+    Update: 'update users set processed = "True" where user_id in {};'
+
+    Analytics: 'Select no_of_users from user_analytics where date_processed < NOW() - INTERVAL {} ;'
+
+    SpecificAnalytics: 'Select no_of_users from user_analytics where date_processed in (%s) ;'
+
+    UpdateAnalytics: 'UPDATE user_analytics set no_of_users = {} where date_processed in (%s) ;'
+
+
+
+  BatchJob:
+    Create: 'INSERT INTO batch_job (batch_id,batch_start_time,batch_status) VALUES {};'
+    UpdateEndTime: 'UPDATE batch_job set batch_end_time = %s , batch_status = %s, records_processed = %s where batch_id = %s;'
+
+  BatchRecords:
+    Create: 'INSERT INTO batch_records (upstream_object,downstream_object,record,processed) VALUES (%s,%s,%s,%s);'
+    Read: 'SELECT * from batch_records where processed = "Pending";'
+    Update: 'UPDATE batch_records set processed = %s , batch_id = %s where id in {};'
