@@ -81,12 +81,12 @@ WSGI_APPLICATION = 'CapstoneProject.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': environ.get("DBNAME","postgres"),
-        'USER': environ.get("DBUSER","postgres"),
+        'ENGINE': 'mysql.connector.django',
+        'NAME': environ.get("DBNAME","mysql"),
+        'USER': environ.get("DBUSER","mysql"),
         'PASSWORD': environ.get("DBPASSWORD",'password'),
         'HOST': environ.get("DBHOST","localhost"),
-        'PORT': environ.get("DBPORT",'5432'),
+        'PORT': environ.get("DBPORT",'3306'),
     }
 }
 

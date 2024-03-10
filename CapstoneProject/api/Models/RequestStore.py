@@ -8,3 +8,6 @@ class RequestStore(models.Model):
 
     def __str__(self) -> str:
         return self.request + ' ' + self.response
+    
+    class Meta:
+        db_table = "request_store"
