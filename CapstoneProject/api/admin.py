@@ -1,4 +1,4 @@
 from django.contrib import admin
 
-from .models import RequestStore
+from api.Models.RequestStore import RequestStore
 admin.site.register(RequestStore)
