@@ -81,7 +81,7 @@ WSGI_APPLICATION = 'CapstoneProject.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'mysql.connector.django',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': environ.get("DBNAME","mysql"),
         'USER': environ.get("DBUSER","mysql"),
         'PASSWORD': environ.get("DBPASSWORD",'password'),
