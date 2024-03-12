@@ -41,7 +41,10 @@ class BookingAnalyticsView(APIView):
                     prevWeeklyBookingAnalytics = BookingData.objects.filter(booking__week = current_week - 1)
                     serializer = BookingDataSerializer(prevWeeklyBookingAnalytics,many=True)
                     weeklyBookingResponse['prev_week'] = len(serializer.data)
-                    weeklyBookingResponse['pct_change'] = "{:.2f}".format(((weeklyBookingResponse['current_week']/weeklyBookingResponse['prev_week']) - 1)*100)
+                    if weeklyBookingResponse['prev_week'] > 0:
+                        weeklyBookingResponse['pct_change'] = "{:.2f}".format(((weeklyBookingResponse['current_week']/weeklyBookingResponse['prev_week']) - 1)*100)
+                    else:
+                        weeklyBookingResponse['pct_change'] = "0.00"    
                     return JsonResponse(weeklyBookingResponse,safe=False)
                 else:
                     return Response({'error' : 'Malformed request'},status=status.HTTP_400_BAD_REQUEST)
