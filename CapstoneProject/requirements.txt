@@ -1,0 +1,11 @@
+
+python-dotenv
+django
+djangorestframework
+mysql-connector
+pymysql
+pyyaml
+pyrebase4
+pandas
+numpy
+django-cors-headers

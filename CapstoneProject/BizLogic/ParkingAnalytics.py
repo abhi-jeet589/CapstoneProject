@@ -10,7 +10,7 @@ def parkingDetails(parkingDict):
     for parkingLotName in parkingDict.keys():
         totalCoveredSlots, totalOccupiedSlots, totalVipSlots = 0,0,0
         df_parkinglot = pd.DataFrame(parkingDict[parkingLotName])
-        df_parkinglot = df_parkinglot.drop(columns=columnIgnoreList)
+        df_parkinglot = df_parkinglot.drop(columns=columnIgnoreList,errors='ignore')
         coveredSlots = df_parkinglot.loc['covered'].aggregate(func="sum",axis=0)
         occupiedSlots = df_parkinglot.loc['occupied'].aggregate(func="sum",axis=0)
         vipSlots = df_parkinglot.loc['vip'].aggregate(func="sum",axis=0)
