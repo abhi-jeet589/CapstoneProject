@@ -26,6 +26,7 @@ class ParkingView(APIView):
             else:
                 locationData = firebaseDb.get().val()
             response = parkingDetails(locationData)
+            logger.info(response)
             saveServerResponse(request,'parking',response)
             return Response(response,status=status.HTTP_200_OK)
         except HTTPError as err:

@@ -24,30 +24,35 @@ class BookingAnalyticsView(APIView):
                 if request.query_params.get('filter') == "monthly":
                     if "year" in request.query_params.keys():
                         yearVal = request.query_params.get('year')
-                        yearlyBookingAnalytics = BookingData.objects.filter(booking__year=yearVal)
+                        yearlyBookingAnalytics = BookingData.objects.filter(booking_date_time__year=yearVal)
                         yearlyBookingResponse = {}
                         for month_number, month_name in year_dict.items():
-                            monthlyBookingAnalytics = yearlyBookingAnalytics.filter(booking__month=month_number)
+                            monthlyBookingAnalytics = yearlyBookingAnalytics.filter(booking_date_time__month=month_number)
                             serializer = BookingDataSerializer(monthlyBookingAnalytics,many=True)
                             yearlyBookingResponse[month_name] = len(serializer.data)
+                        saveServerResponse(request,'booking_analytics',yearlyBookingResponse)
                         return JsonResponse(yearlyBookingResponse,safe=False)
+                    saveServerResponse(request,'booking_analytics',{'error': 'The filter query parameter requires a year value.'})
                     return Response({'error': 'The filter query parameter requires a year value.'},status=status.HTTP_400_BAD_REQUEST)
                 elif request.query_params.get('filter') == "weekly":
                     weeklyBookingResponse = {}
                     current_year,current_week,current_day_of_week = date.today().isocalendar()
-                    weeklyBookingAnalytics = BookingData.objects.filter(booking__week = current_week)
+                    weeklyBookingAnalytics = BookingData.objects.filter(booking_date_time__week = current_week)
                     serializer = BookingDataSerializer(weeklyBookingAnalytics,many=True)
                     weeklyBookingResponse['current_week'] = len(serializer.data)
-                    prevWeeklyBookingAnalytics = BookingData.objects.filter(booking__week = current_week - 1)
+                    prevWeeklyBookingAnalytics = BookingData.objects.filter(booking_date_time__week = current_week - 1)
                     serializer = BookingDataSerializer(prevWeeklyBookingAnalytics,many=True)
                     weeklyBookingResponse['prev_week'] = len(serializer.data)
                     if weeklyBookingResponse['prev_week'] > 0:
                         weeklyBookingResponse['pct_change'] = "{:.2f}".format(((weeklyBookingResponse['current_week']/weeklyBookingResponse['prev_week']) - 1)*100)
                     else:
-                        weeklyBookingResponse['pct_change'] = "0.00"    
+                        weeklyBookingResponse['pct_change'] = "{:.2f}".format((weeklyBookingResponse['current_week']))
+                    saveServerResponse(request,'booking_analytics',weeklyBookingResponse)
                     return JsonResponse(weeklyBookingResponse,safe=False)
                 else:
+                    saveServerResponse(request,'booking_analytics',{'error' : 'Malformed request'})
                     return Response({'error' : 'Malformed request'},status=status.HTTP_400_BAD_REQUEST)
+            saveServerResponse(request,'booking_analytics',{'error': 'Endpoint requires query parameter'})
             return Response({'error': 'Endpoint requires query parameter'},status=status.HTTP_400_BAD_REQUEST)
         except HTTPError as err:
             errorResponse = {"error" : err.reason}
