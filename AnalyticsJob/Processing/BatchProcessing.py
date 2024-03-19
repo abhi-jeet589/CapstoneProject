@@ -34,6 +34,7 @@ class BatchProcessing:
             columns = self._cursor.description
             data = [{columns[index][0]: column for index, column in enumerate(value)} for value in self._cursor.fetchall()]
             if len(data) > 0:
+                self.logger.info(f"Batch processing records: {len(data)}")
                 self.df_processing_records = pd.DataFrame(data)
                 for record_id,upstream_object,downstream_object,record in list(zip(self.df_processing_records['id'].values,self.df_processing_records['upstream_object'].values,self.df_processing_records['downstream_object'].values,self.df_processing_records['record'].values)):
                     try:
@@ -44,6 +45,8 @@ class BatchProcessing:
                         self.batch_records-=1
                         self.logger.exception(err)
                         self.update_record_status("Failed",record_id)
+            elif len(data) == 0:
+                self.logger.info("No batch processing records")
             self.update_batch_status("Success",self.batch_records)
         except Exception as err:
             self.logger.exception(err)

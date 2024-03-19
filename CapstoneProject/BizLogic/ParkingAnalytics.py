@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np
 import logging
 
 def parkingDetails(parkingDict):
@@ -23,6 +22,7 @@ def parkingDetails(parkingDict):
         'totalParkingSlots': len(df_parkinglot.columns),
         'totalOccupiedSlots': totalOccupiedSlots,
         'totalAvailableSlots': len(df_parkinglot.columns) - totalOccupiedSlots,
+        'pct_utilization': '{:.2f}'.format((totalOccupiedSlots/len(df_parkinglot.columns))*100),
         'totalCoveredSlots': totalCoveredSlots,
         'totalVipSlots' : totalVipSlots,
         'parkingSlotDetails': parkingDict[parkingLotName]
