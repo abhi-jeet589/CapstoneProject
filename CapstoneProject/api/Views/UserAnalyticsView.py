@@ -28,7 +28,7 @@ class UserAnalyticsView(APIView):
                 return JsonResponse(serializer.data[0],safe=False)
             notFoundResponse = {'error' : f'No data exists for date {filterDate}'}
             saveServerResponse(request,'user_analytics',notFoundResponse)
-            return Response(notFoundResponse,status=status.HTTP_404_NOT_FOUND)
+            return Response(notFoundResponse,status=status.HTTP_200_OK)
         except HTTPError as err:
             errorResponse = {"error" : err.reason}
             saveServerResponse(request,'user_analytics',errorResponse)
