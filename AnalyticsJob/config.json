@@ -1,9 +1,9 @@
 {
     "DATABASE": {
-        "DBNAME": "analytics",
-        "DBUSER": "capstone_user",
-        "DBPASSWORD": "password",
-        "DBHOST": "localhost",
+        "DBNAME": "smartparking",
+        "DBUSER": "admin",
+        "DBPASSWORD": "capstonepass",
+        "DBHOST": "capstone-db.czsouwkaq565.us-west-1.rds.amazonaws.com",
         "DBPORT": "3306"
     }
 }

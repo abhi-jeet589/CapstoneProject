@@ -1,6 +1,6 @@
 from Utils.UtilConnection import UtilConnection as UtilConnect
 from Utils.UtilLogger import UtilLogger
-from BizLogic.UserLogic import UserLogic
+from BizLogic import UserLogic, RevenueLogic
 from Processing.BatchProcessing import BatchProcessing
 import logging
 
@@ -15,8 +15,11 @@ if __name__ == '__main__':
     cursor = utilConnect.create_cursor()
 
     ##Object level processing
-    userLogic = UserLogic(cursor,db)
+    userLogic = UserLogic.UserLogic(cursor,db)
     userLogic.manage_user_data()
+
+    revenueLogic = RevenueLogic.RevenueLogic(cursor,db)
+    revenueLogic.manage_revenue_data()
 
     ##Batch job processing
     batchProcessing = BatchProcessing(cursor=cursor,db=db)

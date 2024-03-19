@@ -13,6 +13,20 @@ Analytics:
     UpdateAnalytics: 'UPDATE user_analytics set no_of_users = {} where date_processed in (%s) ;'
 
 
+  Booking_sessions:
+    UpstreamFetch: 'select session_id, calculated_bill from booking_sessions where processed = "False";'
+
+    DownstreamInsert: "INSERT INTO revenue_analytics (date_processed,revenue) VALUES {};"
+
+    Update: 'update booking_sessions set processed = "True" where session_id in {};'
+
+    Analytics: 'Select revenue from revenue_analytics where date_processed < NOW() - INTERVAL {} ;'
+
+    SpecificAnalytics: 'Select revenue from revenue_analytics where date_processed in (%s) ;'
+
+    UpdateAnalytics: 'UPDATE revenue_analytics set revenue = {} where date_processed in (%s) ;'
+  
+
 
   BatchJob:
     Create: 'INSERT INTO batch_job (batch_id,batch_start_time,batch_status) VALUES {};'
