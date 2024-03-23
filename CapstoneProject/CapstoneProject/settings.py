@@ -142,7 +142,7 @@ LOGGING = {
     'disable_existing_loggers': False,
     'formatters': {
         'standard':{
-            'format': '%(asctime)s - [%(name)s] - [%(levelname)s] - %(message)s'
+            'format': '[%(asctime)s] - [%(name)s] - [%(levelname)s] - %(message)s'
         }
     },
     'handlers':{
@@ -157,7 +157,7 @@ LOGGING = {
         logger_name: {
             'level_name': 'DEBUG',
             'propagate': True,
-        } for logger_name in ('api','BizLogic','Utils')
+        } for logger_name in ('api','BizLogic','Utils','django')
     },
     'root':{
         'level': 'DEBUG',
