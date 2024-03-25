@@ -15,8 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
+from api.Views.ParkingHistoryView import ParkingHistoryView
+from api.Views.BookingSessionView import BookingSessionView
+from api.Views.UserView import UserView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('v1/analytics/',include('api.urls'))
+    path('v1/analytics/',include('api.urls')),
+    path('v1/parking/history',ParkingHistoryView.as_view(),name='parking_history'),
+    path('v1/parking/booking/history',BookingSessionView.as_view(),name='booking_history'),
+    path('v1/user',UserView.as_view(),name='user_info')
 ]
